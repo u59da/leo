@@ -38,7 +38,7 @@
             --rainbow-green-soft: #51cf66;
             --rainbow-blue-soft: #4dabf7;
             --rainbow-purple-soft: #b197fc;
-            /* 背景色 (纯深色，彩色色块位于独立层) */
+            /* 背景色 - 纯黑背景 */
             --bg-deep: #0d0d1a;
             --bg-card: rgba(22, 33, 62, 0.85);
             --bg-card-hover: rgba(31, 43, 77, 0.92);
@@ -80,7 +80,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 6px;
+            height: 4px;
             z-index: 1000;
             background: linear-gradient(to right,
                     var(--rainbow-red) 0%,
@@ -97,7 +97,7 @@
                     var(--rainbow-purple) 100%);
             animation: rainbowShift 8s linear infinite;
             background-size: 200% 100%;
-            box-shadow: 0 2px 15px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 2px 15px rgba(255, 255, 255, 0.2);
         }
 
         @keyframes rainbowShift {
@@ -106,273 +106,6 @@
             }
             100% {
                 background-position: 200% 0%;
-            }
-        }
-
-        /* ==================== 动态碰撞色块背景容器 ==================== */
-        .blob-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            overflow: hidden;
-            pointer-events: none;
-        }
-
-        /* 单个色块 - 使用不规则圆形，动画移动、变形、旋转 */
-        .blob {
-            position: absolute;
-            border-radius: 50% 50% 50% 50% / 40% 60% 50% 60%;
-            filter: blur(35px);
-            mix-blend-mode: screen;
-            opacity: 0.65;
-            animation: blobFloat 18s ease-in-out infinite alternate;
-            will-change: transform, border-radius;
-        }
-
-        /* 不同色块颜色、大小、初始位置 */
-        .blob-1 {
-            width: 400px;
-            height: 400px;
-            background: var(--rainbow-red);
-            top: -100px;
-            left: -100px;
-            animation-duration: 16s;
-            animation-delay: 0s;
-        }
-        .blob-2 {
-            width: 350px;
-            height: 350px;
-            background: var(--rainbow-orange);
-            top: 30%;
-            left: 60%;
-            animation-duration: 20s;
-            animation-delay: 2s;
-        }
-        .blob-3 {
-            width: 300px;
-            height: 300px;
-            background: var(--rainbow-yellow);
-            bottom: -50px;
-            left: 20%;
-            animation-duration: 14s;
-            animation-delay: 1s;
-        }
-        .blob-4 {
-            width: 450px;
-            height: 450px;
-            background: var(--rainbow-green);
-            top: 50%;
-            left: -50px;
-            animation-duration: 22s;
-            animation-delay: 3s;
-        }
-        .blob-5 {
-            width: 280px;
-            height: 280px;
-            background: var(--rainbow-blue);
-            bottom: 10%;
-            right: -80px;
-            animation-duration: 17s;
-            animation-delay: 4s;
-        }
-        .blob-6 {
-            width: 380px;
-            height: 380px;
-            background: var(--rainbow-purple);
-            top: 10%;
-            right: 20%;
-            animation-duration: 19s;
-            animation-delay: 5s;
-        }
-        .blob-7 {
-            width: 250px;
-            height: 250px;
-            background: var(--rainbow-red-soft);
-            top: 70%;
-            left: 65%;
-            animation-duration: 15s;
-            animation-delay: 0.5s;
-        }
-        .blob-8 {
-            width: 320px;
-            height: 320px;
-            background: var(--rainbow-blue-soft);
-            bottom: 20%;
-            left: 35%;
-            animation-duration: 21s;
-            animation-delay: 2.5s;
-        }
-
-        /* 色块动画 - 移动、变形、旋转，模拟碰撞融合 */
-        @keyframes blobFloat {
-            0% {
-                transform: translate(0, 0) scale(1) rotate(0deg);
-                border-radius: 50% 50% 50% 50% / 40% 60% 50% 60%;
-            }
-            25% {
-                transform: translate(80px, -60px) scale(1.15) rotate(20deg);
-                border-radius: 60% 40% 30% 70% / 50% 30% 70% 50%;
-            }
-            50% {
-                transform: translate(-50px, 90px) scale(0.9) rotate(-15deg);
-                border-radius: 30% 70% 60% 40% / 60% 50% 40% 70%;
-            }
-            75% {
-                transform: translate(60px, 40px) scale(1.05) rotate(35deg);
-                border-radius: 70% 30% 50% 50% / 30% 70% 50% 50%;
-            }
-            100% {
-                transform: translate(-80px, -70px) scale(1.1) rotate(-30deg);
-                border-radius: 40% 60% 70% 30% / 50% 40% 60% 50%;
-            }
-        }
-
-        /* ==================== 模糊覆盖层 (最前面蒙一层) ==================== */
-        .blur-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            backdrop-filter: blur(12px) saturate(150%);
-            -webkit-backdrop-filter: blur(12px) saturate(150%);
-            background: rgba(255, 255, 255, 0.03);
-            pointer-events: none;
-        }
-
-        /* ==================== 漂浮粒子背景 (位于模糊层之上) ==================== */
-        .particles-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 2;
-            overflow: hidden;
-        }
-
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: floatParticle 12s ease-in-out infinite;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
-        }
-
-        /* 粒子颜色与位置 */
-        .particle:nth-child(1) {
-            width: 14px;
-            height: 14px;
-            background: var(--rainbow-red);
-            left: 10%;
-            top: 20%;
-            animation-delay: 0s;
-            animation-duration: 10s;
-        }
-        .particle:nth-child(2) {
-            width: 10px;
-            height: 10px;
-            background: var(--rainbow-orange);
-            left: 25%;
-            top: 60%;
-            animation-delay: 1.5s;
-            animation-duration: 14s;
-        }
-        .particle:nth-child(3) {
-            width: 18px;
-            height: 18px;
-            background: var(--rainbow-yellow);
-            left: 40%;
-            top: 30%;
-            animation-delay: 3s;
-            animation-duration: 11s;
-        }
-        .particle:nth-child(4) {
-            width: 12px;
-            height: 12px;
-            background: var(--rainbow-green);
-            left: 55%;
-            top: 70%;
-            animation-delay: 0.8s;
-            animation-duration: 13s;
-        }
-        .particle:nth-child(5) {
-            width: 16px;
-            height: 16px;
-            background: var(--rainbow-blue);
-            left: 70%;
-            top: 15%;
-            animation-delay: 2.2s;
-            animation-duration: 9s;
-        }
-        .particle:nth-child(6) {
-            width: 11px;
-            height: 11px;
-            background: var(--rainbow-purple);
-            left: 85%;
-            top: 45%;
-            animation-delay: 4s;
-            animation-duration: 15s;
-        }
-        .particle:nth-child(7) {
-            width: 13px;
-            height: 13px;
-            background: var(--rainbow-red-soft);
-            left: 50%;
-            top: 50%;
-            animation-delay: 5.5s;
-            animation-duration: 12s;
-        }
-        .particle:nth-child(8) {
-            width: 8px;
-            height: 8px;
-            background: var(--rainbow-purple-soft);
-            left: 30%;
-            top: 85%;
-            animation-delay: 3.8s;
-            animation-duration: 16s;
-        }
-        .particle:nth-child(9) {
-            width: 15px;
-            height: 15px;
-            background: var(--rainbow-blue-soft);
-            left: 90%;
-            top: 75%;
-            animation-delay: 1s;
-            animation-duration: 10s;
-        }
-        .particle:nth-child(10) {
-            width: 7px;
-            height: 7px;
-            background: var(--rainbow-green-soft);
-            left: 5%;
-            top: 55%;
-            animation-delay: 6s;
-            animation-duration: 14s;
-        }
-
-        @keyframes floatParticle {
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1);
-                opacity: 0.2;
-            }
-            25% {
-                transform: translate(35px, -45px) scale(1.4);
-                opacity: 0.4;
-            }
-            50% {
-                transform: translate(-20px, -75px) scale(0.9);
-                opacity: 0.3;
-            }
-            75% {
-                transform: translate(45px, -25px) scale(1.3);
-                opacity: 0.45;
             }
         }
 
@@ -392,7 +125,7 @@
             position: relative;
         }
 
-        /* 头像容器 - 带彩虹光环动画 */
+        /* 头像容器 - 带彩虹光环动画（唯一保留的持续旋转动画之一） */
         .avatar-wrapper {
             position: relative;
             width: 200px;
@@ -417,10 +150,10 @@
                     var(--rainbow-blue),
                     var(--rainbow-purple),
                     var(--rainbow-red));
-            animation: spinRing 6s linear infinite;
-            box-shadow: 0 0 40px rgba(255, 255, 255, 0.3),
-                0 0 80px rgba(228, 3, 3, 0.2),
-                0 0 120px rgba(0, 76, 255, 0.2);
+            animation: spinRing 8s linear infinite;
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.25),
+                0 0 80px rgba(228, 3, 3, 0.15),
+                0 0 120px rgba(0, 76, 255, 0.15);
         }
 
         @keyframes spinRing {
@@ -513,7 +246,7 @@
             background-clip: text;
             animation: gradientText 4s ease infinite;
             font-family: var(--font-decorative);
-            text-shadow: 0 4px 20px rgba(255, 255, 255, 0.4);
+            text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
         }
 
         @keyframes gradientText {
@@ -582,7 +315,7 @@
         .tag-pride {
             background: rgba(255, 255, 255, 0.15);
             border-color: rgba(255, 255, 255, 0.7);
-            animation: pulseTag 2s ease-in-out infinite;
+            animation: pulseTag 3s ease-in-out infinite;
         }
 
         @keyframes pulseTag {
@@ -591,11 +324,11 @@
                 box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
             }
             50% {
-                box-shadow: 0 0 25px rgba(255, 255, 255, 0.7);
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
             }
         }
 
-        /* ==================== 彩虹分隔线 ==================== */
+        /* ==================== 彩虹分隔线（静态，无动画） ==================== */
         .rainbow-divider {
             width: 100%;
             height: 4px;
@@ -607,10 +340,8 @@
                     var(--rainbow-green),
                     var(--rainbow-blue),
                     var(--rainbow-purple));
-            background-size: 200% 100%;
-            animation: rainbowShift 4s linear infinite;
             margin: 30px 0;
-            box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
         }
 
         /* ==================== 信息卡片区域 ==================== */
@@ -644,23 +375,10 @@
                     var(--rainbow-green),
                     var(--rainbow-blue),
                     var(--rainbow-purple));
-            animation: barPulse 2s ease-in-out infinite;
-            box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
         }
 
-        @keyframes barPulse {
-            0%,
-            100% {
-                opacity: 1;
-                transform: scaleY(1);
-            }
-            50% {
-                opacity: 0.6;
-                transform: scaleY(0.8);
-            }
-        }
-
-        /* 卡片基础样式 - 半透明深色，让彩色背景透出 */
+        /* 卡片基础样式 - 半透明深色 */
         .card {
             background: var(--bg-card);
             border-radius: 16px;
@@ -687,8 +405,6 @@
                     var(--rainbow-green),
                     var(--rainbow-blue),
                     var(--rainbow-purple));
-            background-size: 200% 100%;
-            animation: rainbowShift 3s linear infinite;
             opacity: 0.9;
         }
 
@@ -753,7 +469,7 @@
             color: #fff;
         }
 
-        /* ==================== 彩虹旗帜动画 ==================== */
+        /* ==================== 彩虹旗帜（静态） ==================== */
         .pride-flag {
             display: flex;
             border-radius: 8px;
@@ -793,7 +509,7 @@
             background: var(--rainbow-purple);
         }
 
-        /* ==================== 引用块 ==================== */
+        /* ==================== 引用块（静态，无持续动画） ==================== */
         .quote-block {
             background: rgba(255, 255, 255, 0.08);
             border-left: 5px solid var(--rainbow-purple);
@@ -803,36 +519,12 @@
             font-style: italic;
             position: relative;
             transition: all var(--transition-medium) ease;
-            animation: quoteGlow 3s ease-in-out infinite;
             backdrop-filter: blur(5px);
         }
 
-        @keyframes quoteGlow {
-            0%,
-            100% {
-                border-left-color: var(--rainbow-red);
-                box-shadow: 0 0 15px rgba(228, 3, 3, 0.2);
-            }
-            20% {
-                border-left-color: var(--rainbow-orange);
-                box-shadow: 0 0 15px rgba(255, 140, 0, 0.2);
-            }
-            40% {
-                border-left-color: var(--rainbow-yellow);
-                box-shadow: 0 0 15px rgba(255, 237, 0, 0.2);
-            }
-            60% {
-                border-left-color: var(--rainbow-green);
-                box-shadow: 0 0 15px rgba(0, 128, 38, 0.2);
-            }
-            80% {
-                border-left-color: var(--rainbow-blue);
-                box-shadow: 0 0 15px rgba(0, 76, 255, 0.2);
-            }
-            100% {
-                border-left-color: var(--rainbow-red);
-                box-shadow: 0 0 15px rgba(228, 3, 3, 0.2);
-            }
+        .quote-block:hover {
+            border-left-color: var(--rainbow-yellow);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
         }
 
         .quote-block p {
@@ -844,7 +536,7 @@
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
 
-        /* ==================== 爱心动画 ==================== */
+        /* ==================== 爱心容器（静态，仅悬停放大） ==================== */
         .heart-container {
             display: flex;
             justify-content: center;
@@ -855,62 +547,36 @@
         .heart {
             font-size: 2.2rem;
             display: inline-block;
-            animation: heartbeat 1.5s ease-in-out infinite;
             cursor: default;
             transition: transform var(--transition-fast) ease;
-            filter: drop-shadow(0 0 12px rgba(255, 100, 100, 0.7));
+            filter: drop-shadow(0 0 10px rgba(255, 100, 100, 0.5));
         }
 
         .heart:nth-child(1) {
-            animation-delay: 0s;
             color: var(--rainbow-red);
         }
         .heart:nth-child(2) {
-            animation-delay: 0.2s;
             color: var(--rainbow-orange);
         }
         .heart:nth-child(3) {
-            animation-delay: 0.4s;
             color: var(--rainbow-yellow);
         }
         .heart:nth-child(4) {
-            animation-delay: 0.6s;
             color: var(--rainbow-green);
         }
         .heart:nth-child(5) {
-            animation-delay: 0.8s;
             color: var(--rainbow-blue);
         }
         .heart:nth-child(6) {
-            animation-delay: 1s;
             color: var(--rainbow-purple);
         }
 
         .heart:hover {
-            transform: scale(1.5);
-            filter: drop-shadow(0 0 30px rgba(255, 150, 150, 0.9));
+            transform: scale(1.4);
+            filter: drop-shadow(0 0 25px rgba(255, 150, 150, 0.8));
         }
 
-        @keyframes heartbeat {
-            0%,
-            100% {
-                transform: scale(1);
-            }
-            15% {
-                transform: scale(1.15);
-            }
-            30% {
-                transform: scale(1);
-            }
-            45% {
-                transform: scale(1.1);
-            }
-            60% {
-                transform: scale(1);
-            }
-        }
-
-        /* ==================== 时间线 ==================== */
+        /* ==================== 时间线（保留样式，但无持续动画） ==================== */
         .timeline {
             position: relative;
             padding-left: 30px;
@@ -932,9 +598,7 @@
                     var(--rainbow-green),
                     var(--rainbow-blue),
                     var(--rainbow-purple));
-            animation: rainbowShift 5s linear infinite;
-            background-size: 100% 300%;
-            box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
         }
 
         .timeline-item {
@@ -1084,22 +748,6 @@
             .heart-container {
                 gap: 12px;
             }
-
-            /* 移动端适当减小色块模糊和尺寸 */
-            .blob {
-                filter: blur(25px);
-            }
-            .blob-1,
-            .blob-2,
-            .blob-3,
-            .blob-4,
-            .blob-5,
-            .blob-6,
-            .blob-7,
-            .blob-8 {
-                width: 250px;
-                height: 250px;
-            }
         }
 
         @media (max-width: 400px) {
@@ -1121,7 +769,7 @@
             }
         }
 
-        /* ==================== 页面加载动画 ==================== */
+        /* ==================== 页面加载动画（一次性） ==================== */
         .hero-section,
         .section {
             animation: fadeInUp 0.8s ease-out forwards;
@@ -1146,11 +794,8 @@
         .section:nth-of-type(5) {
             animation-delay: 1.2s;
         }
-        .section:nth-of-type(6) {
-            animation-delay: 1.4s;
-        }
         .footer {
-            animation: fadeInUp 0.8s ease-out 1.6s forwards;
+            animation: fadeInUp 0.8s ease-out 1.4s forwards;
             opacity: 0;
         }
 
@@ -1200,35 +845,6 @@
 <body>
     <!-- ==================== 彩虹顶部装饰条 ==================== -->
     <div class="rainbow-top-bar"></div>
-
-    <!-- ==================== 动态碰撞色块背景层 ==================== -->
-    <div class="blob-container">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
-        <div class="blob blob-4"></div>
-        <div class="blob blob-5"></div>
-        <div class="blob blob-6"></div>
-        <div class="blob blob-7"></div>
-        <div class="blob blob-8"></div>
-    </div>
-
-    <!-- ==================== 模糊覆盖层 ==================== -->
-    <div class="blur-overlay"></div>
-
-    <!-- ==================== 漂浮粒子背景 ==================== -->
-    <div class="particles-container">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-    </div>
 
     <!-- ==================== 主内容容器 ==================== -->
     <div class="main-container">
