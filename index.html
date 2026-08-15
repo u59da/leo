@@ -6,49 +6,35 @@
     <title>李新洋 - 个人介绍</title>
     <!--
         ============================================================
-        图片说明（请将图片文件放在与 index.html 相同的目录下）：
-        ------------------------------------------------------------
-        1. 头像图片：请命名为 "profile.jpg"（建议尺寸 300x300 像素，
-           方形或圆形裁剪最佳，建议使用温暖微笑的肖像照）
-        2. 教学场景图：请命名为 "teaching.jpg"（建议尺寸 600x400 像素，
-           可以是他在课堂上讲课、与学生互动的场景）
-        3. 生活照：请命名为 "life.jpg"（建议尺寸 600x400 像素，
-           可以是旅行、阅读、与朋友聚会等生活化场景）
-        4. 彩虹旗帜背景图（可选）：请命名为 "rainbow-bg.jpg"
-           （建议尺寸 1920x1080 像素，彩虹旗虚化背景）
-        ------------------------------------------------------------
-        如果没有图片，页面会自动显示带有首字母"李"的彩色占位图标，
-        不会影响整体布局和动画效果。
+        图片说明：
+        - 头像图片：profile.jpg（已启用）
+        - 背景图片：rainbow-bg.jpg（已启用）
+        - 其余图片（教学场景图、生活照）可选，未在页面中使用
         ============================================================
     -->
     <style>
         /* ==================== 全局重置与基础样式 ==================== */
         :root {
-            /* LGBT彩虹旗六色 */
             --rainbow-red: #E40303;
             --rainbow-orange: #FF8C00;
             --rainbow-yellow: #FFED00;
             --rainbow-green: #008026;
             --rainbow-blue: #004CFF;
             --rainbow-purple: #732982;
-            /* 柔和变体 */
             --rainbow-red-soft: #ff6b6b;
             --rainbow-orange-soft: #ffa94d;
             --rainbow-yellow-soft: #ffe066;
             --rainbow-green-soft: #51cf66;
             --rainbow-blue-soft: #4dabf7;
             --rainbow-purple-soft: #b197fc;
-            /* 背景色 - 纯黑背景 */
             --bg-deep: #0d0d1a;
             --bg-card: rgba(22, 33, 62, 0.85);
             --bg-card-hover: rgba(31, 43, 77, 0.92);
             --text-primary: #ffffff;
             --text-secondary: #e8e8f0;
             --text-muted: #b8b8cc;
-            /* 字体 */
             --font-main: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', sans-serif;
             --font-decorative: 'Georgia', 'Noto Serif SC', 'STSong', serif;
-            /* 动画时长 */
             --transition-fast: 0.3s;
             --transition-medium: 0.6s;
             --transition-slow: 1s;
@@ -71,7 +57,22 @@
             overflow-x: hidden;
             position: relative;
             min-height: 100vh;
-            background: var(--bg-deep);
+            /* 启用彩虹背景图，叠加在黑色底色上 */
+            background: var(--bg-deep) url('rainbow-bg.jpg') center center / cover no-repeat;
+            background-blend-mode: normal; /* 不混合，让图显示，用遮罩压暗 */
+        }
+
+        /* 半透明遮罩层，保证文字可读性 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.55); /* 黑色遮罩，调整数值可改变明暗 */
+            z-index: 0;
+            pointer-events: none;
         }
 
         /* ==================== 彩虹顶部装饰条 ==================== */
@@ -101,18 +102,14 @@
         }
 
         @keyframes rainbowShift {
-            0% {
-                background-position: 0% 0%;
-            }
-            100% {
-                background-position: 200% 0%;
-            }
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
         }
 
         /* ==================== 页面主容器 ==================== */
         .main-container {
             position: relative;
-            z-index: 3;
+            z-index: 2; /* 位于遮罩之上 */
             max-width: 900px;
             margin: 0 auto;
             padding: 60px 24px 40px;
@@ -125,7 +122,7 @@
             position: relative;
         }
 
-        /* 头像容器 - 带彩虹光环动画（唯一保留的持续旋转动画之一） */
+        /* 头像容器 */
         .avatar-wrapper {
             position: relative;
             width: 200px;
@@ -134,7 +131,6 @@
             cursor: pointer;
         }
 
-        /* 彩虹旋转光环 */
         .avatar-rainbow-ring {
             position: absolute;
             top: -8px;
@@ -152,20 +148,15 @@
                     var(--rainbow-red));
             animation: spinRing 8s linear infinite;
             box-shadow: 0 0 40px rgba(255, 255, 255, 0.25),
-                0 0 80px rgba(228, 3, 3, 0.15),
-                0 0 120px rgba(0, 76, 255, 0.15);
+                        0 0 80px rgba(228, 3, 3, 0.15),
+                        0 0 120px rgba(0, 76, 255, 0.15);
         }
 
         @keyframes spinRing {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        /* 头像内部容器 */
         .avatar-inner {
             position: absolute;
             top: 4px;
@@ -201,37 +192,6 @@
             transform: scale(1.1);
         }
 
-        /* 头像占位符（无图片时显示） */
-        .avatar-placeholder {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 72px;
-            font-weight: bold;
-            font-family: var(--font-decorative);
-            background: linear-gradient(135deg,
-                    var(--rainbow-red-soft), var(--rainbow-orange-soft),
-                    var(--rainbow-yellow-soft), var(--rainbow-green-soft),
-                    var(--rainbow-blue-soft), var(--rainbow-purple-soft));
-            background-size: 300% 300%;
-            animation: gradientShift 5s ease infinite;
-            color: #fff;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
-            user-select: none;
-        }
-
-        @keyframes gradientShift {
-            0%,
-            100% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-        }
-
         /* 姓名标题 */
         .name-title {
             font-size: 3rem;
@@ -250,16 +210,10 @@
         }
 
         @keyframes gradientText {
-            0%,
-            100% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
-        /* 英文名 */
         .en-name {
             font-size: 1.1rem;
             color: #f0f0f5;
@@ -270,7 +224,6 @@
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
 
-        /* 简短标签 */
         .tagline {
             display: flex;
             justify-content: center;
@@ -319,16 +272,11 @@
         }
 
         @keyframes pulseTag {
-            0%,
-            100% {
-                box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
-            }
-            50% {
-                box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
-            }
+            0%, 100% { box-shadow: 0 0 8px rgba(255, 255, 255, 0.2); }
+            50% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.6); }
         }
 
-        /* ==================== 彩虹分隔线（静态，无动画） ==================== */
+        /* 彩虹分隔线（静态） */
         .rainbow-divider {
             width: 100%;
             height: 4px;
@@ -378,7 +326,6 @@
             box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
         }
 
-        /* 卡片基础样式 - 半透明深色 */
         .card {
             background: var(--bg-card);
             border-radius: 16px;
@@ -412,7 +359,7 @@
             background: var(--bg-card-hover);
             transform: translateY(-4px);
             box-shadow: 0 15px 45px rgba(0, 0, 0, 0.35),
-                0 0 30px rgba(255, 255, 255, 0.1);
+                        0 0 30px rgba(255, 255, 255, 0.1);
             border-color: rgba(255, 255, 255, 0.3);
         }
 
@@ -432,7 +379,6 @@
             text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
         }
 
-        /* 信息列表 */
         .info-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -469,7 +415,6 @@
             color: #fff;
         }
 
-        /* ==================== 彩虹旗帜（静态） ==================== */
         .pride-flag {
             display: flex;
             border-radius: 8px;
@@ -490,26 +435,13 @@
             filter: brightness(1.4);
         }
 
-        .flag-red {
-            background: var(--rainbow-red);
-        }
-        .flag-orange {
-            background: var(--rainbow-orange);
-        }
-        .flag-yellow {
-            background: var(--rainbow-yellow);
-        }
-        .flag-green {
-            background: var(--rainbow-green);
-        }
-        .flag-blue {
-            background: var(--rainbow-blue);
-        }
-        .flag-purple {
-            background: var(--rainbow-purple);
-        }
+        .flag-red { background: var(--rainbow-red); }
+        .flag-orange { background: var(--rainbow-orange); }
+        .flag-yellow { background: var(--rainbow-yellow); }
+        .flag-green { background: var(--rainbow-green); }
+        .flag-blue { background: var(--rainbow-blue); }
+        .flag-purple { background: var(--rainbow-purple); }
 
-        /* ==================== 引用块（静态，无持续动画） ==================== */
         .quote-block {
             background: rgba(255, 255, 255, 0.08);
             border-left: 5px solid var(--rainbow-purple);
@@ -536,7 +468,6 @@
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
 
-        /* ==================== 爱心容器（静态，仅悬停放大） ==================== */
         .heart-container {
             display: flex;
             justify-content: center;
@@ -552,101 +483,18 @@
             filter: drop-shadow(0 0 10px rgba(255, 100, 100, 0.5));
         }
 
-        .heart:nth-child(1) {
-            color: var(--rainbow-red);
-        }
-        .heart:nth-child(2) {
-            color: var(--rainbow-orange);
-        }
-        .heart:nth-child(3) {
-            color: var(--rainbow-yellow);
-        }
-        .heart:nth-child(4) {
-            color: var(--rainbow-green);
-        }
-        .heart:nth-child(5) {
-            color: var(--rainbow-blue);
-        }
-        .heart:nth-child(6) {
-            color: var(--rainbow-purple);
-        }
+        .heart:nth-child(1) { color: var(--rainbow-red); }
+        .heart:nth-child(2) { color: var(--rainbow-orange); }
+        .heart:nth-child(3) { color: var(--rainbow-yellow); }
+        .heart:nth-child(4) { color: var(--rainbow-green); }
+        .heart:nth-child(5) { color: var(--rainbow-blue); }
+        .heart:nth-child(6) { color: var(--rainbow-purple); }
 
         .heart:hover {
             transform: scale(1.4);
             filter: drop-shadow(0 0 25px rgba(255, 150, 150, 0.8));
         }
 
-        /* ==================== 时间线（保留样式，但无持续动画） ==================== */
-        .timeline {
-            position: relative;
-            padding-left: 30px;
-            margin-top: 15px;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 10px;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            border-radius: 3px;
-            background: linear-gradient(to bottom,
-                    var(--rainbow-red),
-                    var(--rainbow-orange),
-                    var(--rainbow-yellow),
-                    var(--rainbow-green),
-                    var(--rainbow-blue),
-                    var(--rainbow-purple));
-            box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
-        }
-
-        .timeline-item {
-            position: relative;
-            margin-bottom: 22px;
-            padding-left: 10px;
-            transition: all var(--transition-fast) ease;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -24px;
-            top: 8px;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--bg-deep);
-            border: 2.5px solid var(--rainbow-purple);
-            transition: all var(--transition-fast) ease;
-            box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
-        }
-
-        .timeline-item:hover::before {
-            border-color: var(--rainbow-yellow);
-            box-shadow: 0 0 18px rgba(255, 237, 0, 0.8);
-            transform: scale(1.3);
-        }
-
-        .timeline-item:hover {
-            transform: translateX(6px);
-        }
-
-        .timeline-year {
-            font-size: 0.8rem;
-            color: var(--rainbow-yellow-soft);
-            letter-spacing: 2px;
-            font-weight: 600;
-            text-transform: uppercase;
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
-        }
-
-        .timeline-text {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-
-        /* ==================== 兴趣爱好标签 ==================== */
         .hobby-tags {
             display: flex;
             flex-wrap: wrap;
@@ -675,7 +523,6 @@
             box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
         }
 
-        /* ==================== 底部 ==================== */
         .footer {
             text-align: center;
             padding: 40px 0 20px;
@@ -690,61 +537,46 @@
             margin: 15px auto;
         }
 
-        /* ==================== 响应式设计 ==================== */
         @media (max-width: 768px) {
             .main-container {
                 padding: 40px 16px 20px;
             }
-
             .name-title {
                 font-size: 2.2rem;
                 letter-spacing: 2px;
             }
-
             .avatar-wrapper {
                 width: 150px;
                 height: 150px;
             }
-
             .avatar-rainbow-ring {
                 width: 164px;
                 height: 164px;
                 top: -7px;
                 left: -7px;
             }
-
             .avatar-inner {
                 width: 144px;
                 height: 144px;
                 top: 3px;
                 left: 3px;
             }
-
-            .avatar-placeholder {
-                font-size: 52px;
-            }
-
             .card {
                 padding: 20px 18px;
             }
-
             .section-title {
                 font-size: 1.3rem;
             }
-
             .info-grid {
                 grid-template-columns: 1fr 1fr;
                 gap: 8px;
             }
-
             .info-item {
                 padding: 10px 12px;
             }
-
             .heart {
                 font-size: 1.6rem;
             }
-
             .heart-container {
                 gap: 12px;
             }
@@ -754,71 +586,32 @@
             .info-grid {
                 grid-template-columns: 1fr;
             }
-
             .name-title {
                 font-size: 1.8rem;
             }
-
-            .tagline {
-                gap: 6px;
-            }
-
-            .tag {
-                font-size: 0.75rem;
-                padding: 5px 12px;
-            }
         }
 
-        /* ==================== 页面加载动画（一次性） ==================== */
+        /* 页面加载动画（一次性） */
         .hero-section,
         .section {
             animation: fadeInUp 0.8s ease-out forwards;
             opacity: 0;
         }
 
-        .hero-section {
-            animation-delay: 0.2s;
-        }
-        .section:nth-of-type(1) {
-            animation-delay: 0.4s;
-        }
-        .section:nth-of-type(2) {
-            animation-delay: 0.6s;
-        }
-        .section:nth-of-type(3) {
-            animation-delay: 0.8s;
-        }
-        .section:nth-of-type(4) {
-            animation-delay: 1s;
-        }
-        .section:nth-of-type(5) {
-            animation-delay: 1.2s;
-        }
-        .footer {
-            animation: fadeInUp 0.8s ease-out 1.4s forwards;
-            opacity: 0;
-        }
+        .hero-section { animation-delay: 0.2s; }
+        .section:nth-of-type(1) { animation-delay: 0.4s; }
+        .section:nth-of-type(2) { animation-delay: 0.6s; }
+        .section:nth-of-type(3) { animation-delay: 0.8s; }
+        .section:nth-of-type(4) { animation-delay: 1s; }
+        .footer { animation: fadeInUp 0.8s ease-out 1.2s forwards; opacity: 0; }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ==================== 滚动条美化 ==================== */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.1); }
         ::-webkit-scrollbar-thumb {
             background: linear-gradient(to bottom,
                     var(--rainbow-red),
@@ -830,7 +623,6 @@
             border-radius: 10px;
             border: 2px solid rgba(0, 0, 0, 0.2);
         }
-
         ::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(to bottom,
                     var(--rainbow-red-soft),
@@ -843,33 +635,24 @@
     </style>
 </head>
 <body>
-    <!-- ==================== 彩虹顶部装饰条 ==================== -->
+    <!-- 彩虹顶部装饰条 -->
     <div class="rainbow-top-bar"></div>
 
-    <!-- ==================== 主内容容器 ==================== -->
+    <!-- 主内容容器 -->
     <div class="main-container">
-        <!-- ========== 头部/英雄区域 ========== -->
+        <!-- 头部 -->
         <header class="hero-section">
-            <!-- 头像（带旋转彩虹光环） -->
             <div class="avatar-wrapper">
                 <div class="avatar-rainbow-ring"></div>
                 <div class="avatar-inner">
-                    <!--
-                        请将头像图片命名为 "profile.jpg" 放在本 HTML 文件同目录下。
-                        如果图片存在，请将下面 <img> 标签的 src 设为 "profile.jpg"，
-                        并删除或注释掉下面的 <div class="avatar-placeholder">。
-                        示例：<img src="profile.jpg" alt="李新洋的照片">
-                    -->
-                    <div class="avatar-placeholder" aria-label="李新洋照片占位符">李</div>
-                    <!-- <img src="profile.jpg" alt="李新洋的照片"> -->
+                    <!-- 使用上传的头像图片 -->
+                    <img src="profile.jpg" alt="李新洋的照片">
                 </div>
             </div>
 
-            <!-- 姓名 -->
             <h1 class="name-title">李新洋</h1>
             <p class="en-name">Li Xinyang &middot; Pride in Teaching</p>
 
-            <!-- 标签 -->
             <div class="tagline">
                 <span class="tag tag-rainbow">🌈 英语教师</span>
                 <span class="tag tag-rainbow">🌈 男同性恋</span>
@@ -878,10 +661,9 @@
             </div>
         </header>
 
-        <!-- 彩虹分隔线 -->
         <div class="rainbow-divider"></div>
 
-        <!-- ========== 基本信息 ========== -->
+        <!-- 基本信息 -->
         <section class="section">
             <h2 class="section-title">基本信息</h2>
             <div class="card">
@@ -914,7 +696,7 @@
             </div>
         </section>
 
-        <!-- ========== 个人简介 ========== -->
+        <!-- 个人简介 -->
         <section class="section">
             <h2 class="section-title">个人简介</h2>
             <div class="card">
@@ -926,34 +708,19 @@
             </div>
         </section>
 
-        <!-- ========== 教育背景与职业生涯 暂时隐藏，如需显示请删除此注释 ========== -->
+        <!-- 教育背景与职业生涯（暂时隐藏，如需显示删除注释） -->
         <!--
         <section class="section">
             <h2 class="section-title">教育背景 &amp; 职业生涯</h2>
             <div class="card">
                 <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-year">2004 - 2008</div>
-                        <div class="timeline-text">就读于某师范大学英语教育专业，获文学学士学位。在校期间成绩优异，多次获得奖学金，并开始关注性别平等议题。</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">2008 - 2012</div>
-                        <div class="timeline-text">毕业后进入一所公立中学任教，担任初中英语教师。初登讲台便展现出独特的教学魅力，课堂风格幽默而温暖。</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">2012 - 2018</div>
-                        <div class="timeline-text">调任至高中部，开始承担高中英语教学任务。期间参与编写校本英语教材，并多次指导学生在全国英语竞赛中获奖。</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">2018 - 至今</div>
-                        <div class="timeline-text">担任英语教研组组长，推动教学改革与多元文化教育。在课堂内外倡导包容与尊重，成为学生心中值得信赖的导师与朋友。</div>
-                    </div>
+                    ...
                 </div>
             </div>
         </section>
         -->
 
-        <!-- ========== 教学理念 ========== -->
+        <!-- 教学理念 -->
         <section class="section">
             <h2 class="section-title">教学理念</h2>
             <div class="card">
@@ -970,7 +737,7 @@
             </div>
         </section>
 
-        <!-- ========== 兴趣爱好 ========== -->
+        <!-- 兴趣爱好 -->
         <section class="section">
             <h2 class="section-title">兴趣爱好</h2>
             <div class="card">
@@ -997,7 +764,7 @@
             </div>
         </section>
 
-        <!-- ========== 个人寄语 ========== -->
+        <!-- 个人寄语 -->
         <section class="section">
             <h2 class="section-title">个人寄语</h2>
             <div class="card">
@@ -1016,7 +783,7 @@
             </div>
         </section>
 
-        <!-- ========== 页脚 ========== -->
+        <!-- 页脚 -->
         <footer class="footer">
             <div class="pride-flag">
                 <span class="flag-red"></span>
@@ -1027,7 +794,11 @@
                 <span class="flag-purple"></span>
             </div>
             <p style="margin-top: 10px;">&copy; 2026 李新洋 &middot; 用爱教书 &middot; 以真做人</p>
-            <p style="font-size: 0.7rem; opacity: 0.7; letter-spacing: 3px; margin-top: 6px;">Made by u59da|Powered by GitHubPages</p>
+            <p style="font-size: 0.7rem; opacity: 0.7; letter-spacing: 3px; margin-top: 6px;">
+                LOVE IS LOVE &middot; PRIDE ALWAYS
+            </p>
+            <!-- 可选：添加署名 -->
+            <!-- <p style="font-size: 0.7rem; opacity: 0.5; margin-top: 8px;">Made by u59da · Powered by GitHub Pages</p> -->
         </footer>
     </div>
 </body>
